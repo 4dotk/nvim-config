@@ -14,3 +14,5 @@ vim.keymap.set("n", "<leader>sh", function()
     vim.cmd.term()
     vim.cmd.file("Terminal " .. terminal_session_count)
 end)
+
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]])
