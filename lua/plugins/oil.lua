@@ -17,7 +17,11 @@ return {
                     is_always_hidden = function(name, bufnr)
                         return false
                     end,
-                }
+                },
+                keymaps = {
+                    ["<C-h>"] = false,
+                    ["<C-l>"] = false,
+                },
             })
             vim.keymap.set("n", "<leader>dt", ":Oil<CR>")
 
