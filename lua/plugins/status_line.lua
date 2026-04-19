@@ -39,14 +39,14 @@ return {
                 return row .. ':' .. col
             end
 
-            local kanagawa_dragon = require('lualine.themes.kanagawa')
-            kanagawa_dragon.normal.a.bg = "#957FB8"
-            kanagawa_dragon.normal.b.bg = "#1B1B26"
+            local vague = require('lualine.themes.vague')
+            vague.replace.a.bg = "#B44747"
+            vague.visual.a.bg = "#957FB8"
 
             require('lualine').setup {
                 options = {
                     icons_enabled = true,
-                    theme = kanagawa_dragon,
+                    theme = vague,
                     section_separators = { left = '', right = '' },
                     component_separators = { left = '', right = '' },
                     disabled_filetypes = {
