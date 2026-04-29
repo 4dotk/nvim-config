@@ -1,24 +1,26 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
+        branch = "main",
         build = ":TSUpdate",
-        config = function()
-            require('nvim-treesitter.configs').setup {
-                ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-                sync_install = false,
-                auto_install = false,
-                highlight = {
-                    enable = true,
-                    disable = function(lang, buf)
-                        local max_filesize = 100 * 1024 -- 100 KB
-                        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-                        if ok and stats and stats.size > max_filesize then
-                            return true
-                        end
-                    end,
-                    additional_vim_regex_highlighting = false,
-                },
-            }
-        end
-    }
+        opts = {
+            ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+        },
+        config = function(_, opts)
+            require("nvim-treesitter").setup(opts)
+
+            local group = vim.api.nvim_create_augroup("TreesitterHighlight", { clear = true })
+            vim.api.nvim_create_autocmd("FileType", {
+                group = group,
+                callback = function(args)
+                    -- Skip large files (100 KB limit)
+                    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(args.buf))
+                    if ok and stats and stats.size > 100 * 1024 then
+                        return
+                    end
+                    pcall(vim.treesitter.start, args.buf)
+                end,
+            })
+        end,
+    },
 }

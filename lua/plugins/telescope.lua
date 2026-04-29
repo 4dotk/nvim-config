@@ -1,7 +1,7 @@
 return {
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.8',
+        branch = 'master',
         dependencies = {
             'nvim-lua/plenary.nvim',
             -- Note: For Windows, the fzf dll file will be built in build/Release folder. Move it to build to fix any issues
