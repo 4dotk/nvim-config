@@ -42,6 +42,7 @@ return {
             vim.keymap.set("n", "<leader>gf", function() builtin.git_files(themes.get_ivy(ivy_opts)) end)
             vim.keymap.set("n", "<leader>ld", function() builtin.diagnostics(themes.get_dropdown()) end)
             vim.keymap.set("n", "<leader>gd", function() builtin.lsp_definitions() end)
+            vim.keymap.set("n", "<leader>lb", function() builtin.buffers(themes.get_dropdown()) end)
         end
     }
 }

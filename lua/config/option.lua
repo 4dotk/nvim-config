@@ -18,3 +18,5 @@ vim.opt.hlsearch = true
 vim.opt.termguicolors = true
 
 vim.opt.showmode = false
+
+vim.opt.mouse = ""

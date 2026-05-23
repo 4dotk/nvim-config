@@ -3,31 +3,31 @@ return {
         "nvim-lualine/lualine.nvim",
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
+            -- Map of modes to their respective shorthand indicators
+            local mode_map = {
+                n = 'N',      -- Normal mode
+                i = 'I',      -- Insert mode
+                v = 'V',      -- Visual mode
+                [''] = 'V',   -- Visual block mode
+                V = 'V',      -- Visual line mode
+                c = 'C',      -- Command-line mode
+                no = 'N',     -- NInsert mode
+                s = 'S',      -- Select mode
+                S = 'S',      -- Select line mode
+                ic = 'I',     -- Insert mode (completion)
+                R = 'R',      -- Replace mode
+                Rv = 'R',     -- Virtual Replace mode
+                cv = 'C',     -- Command-line mode
+                ce = 'C',     -- Ex mode
+                r = 'R',      -- Prompt mode
+                rm = 'M',     -- More mode
+                ['r?'] = '?', -- Confirm mode
+                ['!'] = '!',  -- Shell mode
+                t = 'T',      -- Terminal mode
+            }
+
             -- Function to get the current mode indicator
             local function mode()
-                -- Map of modes to their respective shorthand indicators
-                local mode_map = {
-                    n = 'N',      -- Normal mode
-                    i = 'I',      -- Insert mode
-                    v = 'V',      -- Visual mode
-                    [''] = 'V',   -- Visual block mode
-                    V = 'V',      -- Visual line mode
-                    c = 'C',      -- Command-line mode
-                    no = 'N',     -- NInsert mode
-                    s = 'S',      -- Select mode
-                    S = 'S',      -- Select line mode
-                    ic = 'I',     -- Insert mode (completion)
-                    R = 'R',      -- Replace mode
-                    Rv = 'R',     -- Virtual Replace mode
-                    cv = 'C',     -- Command-line mode
-                    ce = 'C',     -- Ex mode
-                    r = 'R',      -- Prompt mode
-                    rm = 'M',     -- More mode
-                    ['r?'] = '?', -- Confirm mode
-                    ['!'] = '!',  -- Shell mode
-                    t = 'T',      -- Terminal mode
-                }
-                -- Return the mode shorthand or [UNKNOWN] if no match
                 local current_mode = vim.api.nvim_get_mode()["mode"]
                 return mode_map[current_mode] or '[UNKNOWN]'
             end
@@ -92,7 +92,24 @@ return {
                     lualine_y = {},
                     lualine_z = {}
                 },
-                tabline = {},
+                tabline = {
+                    lualine_a = {
+                        {
+                            'buffers',
+                            mode = 2,
+                            buffers_color = {
+                                active = 'lualine_a_normal',
+                                inactive = 'lualine_c_inactive',
+                            },
+                            show_filename_only = true,
+                            icons_enabled = true,
+                            symbols = {
+                                modified = ' ●', -- Text to show when the buffer is modified
+                                alternate_file = '', -- Text to show to identify the alternate file
+                            },
+                        }
+                    },
+                },
                 winbar = {},
                 inactive_winbar = {},
                 extensions = {}
