@@ -39,9 +39,15 @@ return {
                 return row .. ':' .. col
             end
 
-            local vague = require('lualine.themes.vague')
+            vim.cmd("colorscheme vague")
+            local vague = require('lualine.themes.auto')
+            vague.normal.a.bg = "#8A98A5"
+            vague.normal.a.fg = "#1C1C24"
+            vague.normal.b.fg = "#8A98A5"
             vague.replace.a.bg = "#B44747"
+            vague.replace.b.fg = "#B44747"
             vague.visual.a.bg = "#957FB8"
+            vague.visual.b.fg = "#957FB8"
 
             require('lualine').setup {
                 options = {
@@ -61,7 +67,7 @@ return {
                         statusline = 1000,
                         tabline = 1000,
                         winbar = 1000,
-                        refresh_time = 16, -- ~60fps
+                        refresh_time = 16,
                         events = {
                             'WinEnter',
                             'BufEnter',
@@ -79,7 +85,7 @@ return {
                 sections = {
                     lualine_a = { mode },
                     lualine_b = { 'branch', 'diff', 'diagnostics' },
-                    lualine_c = { 'filename' },
+                    lualine_c = {},
                     lualine_x = { 'encoding', 'fileformat', 'filetype' },
                     lualine_y = {},
                     lualine_z = { location }
