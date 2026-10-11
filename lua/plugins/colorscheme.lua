@@ -1,11 +1,14 @@
 return {
     {
         "vague-theme/vague.nvim",
+        -- Load before every other plugin so highlight-dependent plugins (lualine) see it
+        lazy = false,
+        priority = 1000,
         config = function()
             require('vague').setup({
                 transparent = false,
-                bold = true,   -- Disable bold globally
-                italic = true, -- Disable italic globally
+                bold = true,
+                italic = true,
                 on_highlights = function(hl, colors) end,
                 colors = {
                     bg = '#141415',
@@ -33,7 +36,7 @@ return {
                     delta = '#f3be7c',
                 },
             })
-            vim.cmd("colorscheme vague")
+            vim.cmd.colorscheme("vague")
         end
     }
 }

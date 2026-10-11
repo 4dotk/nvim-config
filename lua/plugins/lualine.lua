@@ -8,12 +8,13 @@ return {
                 n = 'N',      -- Normal mode
                 i = 'I',      -- Insert mode
                 v = 'V',      -- Visual mode
-                [''] = 'V',   -- Visual block mode
+                ['\22'] = 'V', -- Visual block mode (<C-v>)
                 V = 'V',      -- Visual line mode
                 c = 'C',      -- Command-line mode
-                no = 'N',     -- NInsert mode
+                no = 'N',     -- Operator-pending mode
                 s = 'S',      -- Select mode
                 S = 'S',      -- Select line mode
+                ['\19'] = 'S', -- Select block mode (<C-s>)
                 ic = 'I',     -- Insert mode (completion)
                 R = 'R',      -- Replace mode
                 Rv = 'R',     -- Virtual Replace mode
@@ -35,11 +36,11 @@ return {
             local function location()
                 local pos = vim.api.nvim_win_get_cursor(0)
                 local row = pos[1]
-                local col = pos[2]
+                local col = pos[2] + 1 -- API column is 0-based
                 return row .. ':' .. col
             end
 
-            vim.cmd("colorscheme vague")
+            -- Colorscheme is already loaded (priority = 1000), so 'auto' derives from vague
             local vague = require('lualine.themes.auto')
             vague.normal.a.bg = "#8A98A5"
             vague.normal.a.fg = "#1C1C24"

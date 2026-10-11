@@ -38,11 +38,16 @@ return {
                 }
             }
 
-            vim.keymap.set("n", "<leader>ff", function() builtin.find_files(themes.get_ivy(ivy_opts)) end)
-            vim.keymap.set("n", "<leader>gf", function() builtin.git_files(themes.get_ivy(ivy_opts)) end)
-            vim.keymap.set("n", "<leader>ld", function() builtin.diagnostics(themes.get_dropdown()) end)
-            vim.keymap.set("n", "<leader>gd", function() builtin.lsp_definitions() end)
-            vim.keymap.set("n", "<leader>lb", function() builtin.buffers(themes.get_dropdown()) end)
+            vim.keymap.set("n", "<leader>ff", function() builtin.find_files(themes.get_ivy(ivy_opts)) end,
+                { desc = "Find files" })
+            vim.keymap.set("n", "<leader>gf", function() builtin.git_files(themes.get_ivy(ivy_opts)) end,
+                { desc = "Find git files" })
+            vim.keymap.set("n", "<leader>ld", function() builtin.diagnostics(themes.get_dropdown()) end,
+                { desc = "List diagnostics" })
+            vim.keymap.set("n", "<leader>gd", function() builtin.lsp_definitions() end,
+                { desc = "Go to definition" })
+            vim.keymap.set("n", "<leader>lb", function() builtin.buffers(themes.get_dropdown()) end,
+                { desc = "List buffers" })
         end
     }
 }

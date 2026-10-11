@@ -1,6 +1,6 @@
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
     local lazyrepo = "https://github.com/folke/lazy.nvim.git"
     local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
     if vim.v.shell_error ~= 0 then
@@ -17,11 +17,7 @@ end
 -- Add lazy into the runtime path
 vim.opt.rtp:prepend(lazypath)
 
--- Remap Leader
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
--- Setup lazy.nvim
+-- Setup lazy.nvim (leader is set in config.options, which loads first)
 require("lazy").setup({
     ui = {
         border = "rounded"
@@ -30,4 +26,6 @@ require("lazy").setup({
         -- import your plugins from $CONFIG_HOME/lua/plugins
         { import = "plugins" },
     },
+    -- Colorscheme used while installing plugins on a fresh machine
+    install = { colorscheme = { "vague" } },
 })

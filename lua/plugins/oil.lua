@@ -23,7 +23,7 @@ return {
                     ["<C-l>"] = false,
                 },
             })
-            vim.keymap.set("n", "<leader>dt", ":Oil<CR>")
+            vim.keymap.set("n", "<leader>dt", "<cmd>Oil<CR>", { desc = "Open file explorer" })
 
             vim.api.nvim_create_autocmd("FileType", {
                 pattern = "oil",

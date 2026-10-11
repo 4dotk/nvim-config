@@ -1,52 +1,27 @@
 return {
     {
         "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = {
-            {
-                "folke/lazydev.nvim",
-                ft = "lua",
-                opts = {
-                    library = {
-                        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-                    },
-                },
-            },
-            {
-                "mason-org/mason.nvim",
-                opts = {
-                    ui = {
-                        border = "rounded",
-                        width = 0.75,
-                        height = 0.75
-                    }
-                }
-            },
-            { "saghen/blink.cmp" }
+            -- Mason first so its bin dir is on PATH before servers start
+            "mason-org/mason.nvim",
+            "saghen/blink.cmp", -- registers its completion capabilities for all servers
         },
         config = function()
+            -- Server configs come from nvim-lspconfig's lsp/ directory.
+            -- Override per server with vim.lsp.config("<name>", { ... }) or an lsp/<name>.lua file.
             vim.lsp.enable({ "lua_ls", "clangd", "basedpyright", "ts_ls" })
-            vim.lsp.config("lua_ls", {})
-            vim.lsp.config("clangd", {})
-            vim.lsp.config("basedpyright", {})
-            vim.lsp.config("ts_ls", {})
 
-            local function load_local_config()
-                local local_config = vim.fn.getcwd() .. "/.nvim/init.lua"
-                if vim.fn.filereadable(local_config) == 1 then
-                    dofile(local_config)
-                end
-            end
-
-            load_local_config()
-
-            vim.api.nvim_create_autocmd('LspAttach', {
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("user-lsp-attach", { clear = true }),
                 callback = function(args)
                     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-                    if not client then return end
 
-                    if not client:supports_method('textDocument/willSaveWaitUntil')
-                        and client:supports_method('textDocument/formatting') then
-                        vim.api.nvim_create_autocmd('BufWritePre', {
+                    -- Format on save
+                    if not client:supports_method("textDocument/willSaveWaitUntil")
+                        and client:supports_method("textDocument/formatting") then
+                        vim.api.nvim_create_autocmd("BufWritePre", {
+                            group = vim.api.nvim_create_augroup("user-lsp-format-" .. args.buf, { clear = true }),
                             buffer = args.buf,
                             callback = function()
                                 vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
@@ -55,8 +30,15 @@ return {
                     end
                 end,
             })
-
-            vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { buffer = 0 })
         end,
-    }
+    },
+    {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+            library = {
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
+    },
 }
